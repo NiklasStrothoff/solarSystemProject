@@ -1,0 +1,6 @@
+{
+    "name": "solarSystem",
+    "dependencies": {
+        "three": "latest"
+    }
+}
