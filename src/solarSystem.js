@@ -1,8 +1,12 @@
-import * as THREE from "./libs/three.module.js";
-import * as ORBIT from "./libs/OrbitControls.module.js";
-import * as FPC from "./libs/FirstPersonControls.module.js";
-import * as PLC from "./libs/PointerLockControls.module.js";
-import {cControl, absoluteCoordinates, createCamera, createPointLight, createVenus, createBackground, createUranus, createSaturn, createSun, createNeptune, createMercury, createEarth, createMoon, createJupiter, createMars, createPlanetCenter, createLightDirectional, shadowProperties} from "./create.js";
+import * as THREE from "../node_modules/three/build/three.module.js";
+import * as ORBIT from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
+import DomeventMouse from "../node_modules/Three-DOMEvents/dist/DomeventMouse.es.js";
+import DomEvents from "../node_modules/Three-DOMEvents/dist/domevents.es.js";
+import {clickBox, cControl, absoluteCoordinates, createCamera, createPointLight, createVenus, createBackground, createUranus, createSaturn, createSun, createNeptune, createMercury, createEarth, createMoon, createJupiter, createMars, createPlanetCenter, createLightDirectional, shadowProperties} from "./create.js";
+
+DomEvents.extend(DomeventMouse);
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //////CREATE PLANET PROPERTIES
@@ -23,7 +27,7 @@ planetProp.jupiter = {radius: 11.21*9.5*0.1, sunDist: 85.5 + planetProp.sun.radi
 planetProp.saturn = {radius: 9.45*9.5*0.1, sunDist: 167 + planetProp.sun.radius, rotation: planetProp.earth.rotation / 0.445, orbit: planetProp.earth.orbit / 29.4};
 planetProp.uranus = {radius: 4.01*9.5*0.1, sunDist: 335.5 + planetProp.sun.radius, rotation: planetProp.earth.rotation / -0.72, orbit: planetProp.earth.orbit / 83.7};
 planetProp.neptune = {radius: 3.88*9.5*0.1, sunDist: 500 + planetProp.sun.radius, rotation: planetProp.earth.rotation /0.673 , orbit: planetProp.earth.orbit / 163.7};
-//uranus +335.5
+
 
 //CREATE SCENE
 const scene = new THREE.Scene();
@@ -35,16 +39,35 @@ renderer.shadowMap.enabled = true; //active the shadow map
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // choose the type of algorithm that calculates the shadows
 document.body.appendChild( renderer.domElement ); //add everything to html doc for display
 
+
+var PlanetViewIndex = 0;
 ////////////////////////////////////////////////////////////////////////////////////////
 //////CREATE PLANETS
 ///////////////////////////////////////////////////////////////////////////////////////	
 //SUN
 var sun = createSun(0, planetProp.sun.radius);
+sun.addEventListener("click", function(event){
+    PlanetViewIndex = 0;
+
+    var text = document.createElement("p");
+    text.setAttribute("id", "sunText")
+    document.createTextNode("SUN");
+    document.body.appendChild(text);
+    console.log(document.getElementsByTagName("p"));
+    document.getElementsByTagName("p").style.color = "red";
+});
 scene.add(sun);
 
 //CREATE EARTH
 var earth = createEarth(planetProp.earth.sunDist, planetProp.earth.radius);
 var earthContainer = new THREE.Object3D();
+//create bigger contrainer so its easy to click planets
+var clickBoxE = clickBox(planetProp.earth.radius * 5);
+earth.add(clickBoxE);
+clickBoxE.addEventListener("click", function(event){
+    PlanetViewIndex = 3;
+});
+//add
 earthContainer.add(earth);
 scene.add(earthContainer);
 
@@ -57,42 +80,72 @@ earth.add(moonContainer);
 //JUPITER
 var jupiter = createJupiter(planetProp.jupiter.sunDist, planetProp.jupiter.radius);
 var jupiterContainer = new THREE.Object3D();
+jupiter.addEventListener("click", function(event){
+    PlanetViewIndex = 6;
+});
 jupiterContainer.add(jupiter);
 scene.add(jupiterContainer);
 
 //MARS
 var mars = createMars(planetProp.mars.sunDist, planetProp.mars.radius);
 var marsContainer = new THREE.Object3D();
+//create bigger contrainer so its easy to click planets
+var clickBoxMA = clickBox(planetProp.mars.radius * 7);
+mars.add(clickBoxMA);
+clickBoxMA.addEventListener("click", function(event){
+    PlanetViewIndex = 5;
+});
 marsContainer.add(mars);
 scene.add(marsContainer);
 
 //MERCURY
 var mercury = createMercury(planetProp.mercury.sunDist, planetProp.mercury.radius);
 var mercuryContainer = new THREE.Object3D();
+//create bigger contrainer so its easy to click planets
+var clickBoxME = clickBox(planetProp.mercury.radius * 10);
+mercury.add(clickBoxME);
+clickBoxME.addEventListener("click", function(event){
+    PlanetViewIndex = 1;
+});
 mercuryContainer.add(mercury);
 scene.add(mercuryContainer);
 
 //NEPTUNE
 var neptune = createNeptune(planetProp.neptune.sunDist, planetProp.neptune.radius);
 var neptuneContainer = new THREE.Object3D();
+neptune.addEventListener("click", function(event){
+    PlanetViewIndex = 9;
+});
 neptuneContainer.add(neptune);
 scene.add(neptuneContainer);
 
 //SATURN
 var saturn = createSaturn(planetProp.saturn.sunDist, planetProp.saturn.radius);
 var saturnContainer = new THREE.Object3D();
+saturn.addEventListener("click", function(event){
+    PlanetViewIndex = 7;
+});
 saturnContainer.add(saturn);
 scene.add(saturnContainer);
 
 //URANUS
 var uranus = createUranus(planetProp.uranus.sunDist, planetProp.uranus.radius);
 var uranusContainter = new THREE.Object3D();
+uranus.addEventListener("click", function(event){
+    PlanetViewIndex = 8;
+});
 uranusContainter.add(uranus);
 scene.add(uranusContainter);
 
 //VENUS
 var venus = createVenus(planetProp.venus.sunDist, planetProp.venus.radius);
 var venusContainer = new THREE.Object3D();
+//create bigger contrainer so its easy to click planets
+var clickBoxV = clickBox(planetProp.venus.radius * 5);
+venus.add(clickBoxV);
+clickBoxV.addEventListener("click", function(event){
+    PlanetViewIndex = 2;
+});
 venusContainer.add(venus);
 scene.add(venusContainer);
 
@@ -128,30 +181,19 @@ cameraControl.target.set(0, 0, 0); //around which point you should orbit
 cameraControl.update();//must be added after any camera transformations!!! */
 
 //GENERAL
+
 var planets = ["sun", "mercury", "venus", "earth", "moon", "mars", "jupiter", "saturn", "uranus", "neptune"];
 var planetsObj = [sun, mercury, venus, earth, moon, mars, jupiter, saturn, uranus, neptune];
-var index = 1;
-var targetP = absoluteCoordinates(planetsObj[index]); //get planets global position
-const camera = createCamera(targetP, (planetProp[planets[index]].radius * 2));
-planetsObj[index].add(camera);
+var targetP = absoluteCoordinates(planetsObj[PlanetViewIndex]); //get planets global position
+const camera = createCamera(targetP, (planetProp[planets[PlanetViewIndex]].radius * 2));
+scene.add(camera);
 const cameraControl = cControl(camera, renderer.domElement, targetP);
-
-//EART CAM
-/* var targetP = new THREE.Vector3();//to save earth global position
-earth.getWorldPosition(targetP); */
-//create camera
-/* const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 5000 );
-camera.position.set(targetP.x + 10, targetP.y + 10, targetP.z);
-//camera.lookAt(targetP);
-earth.add(camera);
-console.log(camera); */
-//add camera controls orbit
-/* const cameraControl = new ORBIT.OrbitControls(camera, renderer.domElement);
-cameraControl.target = targetP; */
 
 cameraControl.update();//must be added after any camera transformations!!!
 
 
+const DEH = new DomEvents(camera, renderer.domElement);//create dom handler
+DEH.activate(scene);//specify where the dom event handler should listen
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -201,7 +243,7 @@ const animate = function () {
     earth.children[0].rotation.y -= planetProp.earth.rotation - 1/50; //rotate clouds on earth
 
     //CAMERA CONTROLS
-    planetsObj[index].getWorldPosition(targetP);//earth coordinates
+    planetsObj[PlanetViewIndex].getWorldPosition(targetP);//earth coordinates
     cameraControl.update();
     camera.updateProjectionMatrix();
  

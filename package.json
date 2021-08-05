@@ -1,6 +1,7 @@
 {
     "name": "solarSystem",
     "dependencies": {
-        "three": "latest"
+        "three": "latest",
+        "Three-DOMEvents": "git+https://github.com/NiklasStrothoff/three-domevents.git"
     }
 }

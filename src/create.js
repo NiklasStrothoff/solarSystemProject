@@ -1,11 +1,11 @@
-import * as THREE from "./libs/three.module.js";
-import * as ORBIT from "./libs/OrbitControls.module.js";
+import * as THREE from "../node_modules/three/build/three.module.js";
+import * as ORBIT from "../node_modules/three/examples/jsm/controls/OrbitControls.js";
 
 //CREATE A PLANET WITH A TEXTURE
 function createPlanet(radius, txt){
     //CREATE SPHERE WITH TEXTURE
     var geometry = new THREE.SphereGeometry(radius, 32, 32);
-    var texture = new THREE.TextureLoader().load("textures/"+txt); //load new texture
+    var texture = new THREE.TextureLoader().load("./src/textures/"+txt); //load new texture
     var material = new THREE.MeshStandardMaterial({map: texture});
     var sphere = new THREE.Mesh(geometry, material);
     sphere.receiveShadow = true;
@@ -54,7 +54,7 @@ function createPlanetCenter(planet){
 //CREATE BACKGROUND
 function createBackground(rad){
     var skyGeometry = new THREE.SphereGeometry(rad, 32, 32);
-    var skyTexture = new THREE.TextureLoader().load("textures/space.png");
+    var skyTexture = new THREE.TextureLoader().load("./src/textures/space.png");
     skyTexture.wrapS = THREE.RepeatWrapping;
     skyTexture.wrapT = THREE.RepeatWrapping;
     skyTexture.repeat.set(5,5);
@@ -75,7 +75,7 @@ function createEarth(x, rad){
 
     //CREATE CLOUDS
     var cloudsGeometry = new THREE.SphereGeometry((rad + rad*0.01), 32, 32);
-    var cloudsTexture = new THREE.TextureLoader().load("./textures/clouds.png"); //load new texture
+    var cloudsTexture = new THREE.TextureLoader().load("./src/textures/clouds.png"); //load new texture
     var cloudsMaterial = new THREE.MeshStandardMaterial({map: cloudsTexture, transparent: true, opacity: 2});
     var clouds = new THREE.Mesh(cloudsGeometry, cloudsMaterial);
     clouds.receiveShadow = true;
@@ -142,7 +142,7 @@ function createSun(x, rad){
     sun.receiveShadow = false;
     sun.castShadow = false;
     //make sun glow
-    var emissiveTexture = new THREE.TextureLoader().load("textures/sun.jpg");
+    var emissiveTexture = new THREE.TextureLoader().load("./src/textures/sun.jpg");
     sun.material.emissive.set(0xffffff);
     sun.material.emissiveIntensity = 0.75;
     sun.material.emissiveMap = emissiveTexture;
@@ -172,7 +172,7 @@ function createVenus(x, rad){
 ///////////////////////////////////////////////////////////////////////////////////////
 function createCamera(coordinates, dist){
     var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 5000 );
-    camera.position.set(coordinates.x + dist, coordinates.y + dist, coordinates.z);
+    camera.position.set(coordinates.x + dist, 200, coordinates.z);
     //camera.lookAt(coordinates);
     
     return camera;
@@ -191,7 +191,12 @@ function cControl(camera, domE, coordinates){
     return cameraControl;
 }
 
+function clickBox(clickSize, ){
+    var clickMat = new THREE.MeshStandardMaterial({transparent: true, opacity: 0, color: 0x00ffff});
+    var earthClic = new THREE.Mesh(new THREE.BoxGeometry(clickSize, clickSize, clickSize), clickMat);
+    return earthClic;
+}
 
 
 
-export {cControl, absoluteCoordinates, createCamera, createPointLight, createVenus, createBackground, createUranus, createSaturn, createSun, createNeptune, createMercury, createEarth, createMoon, createJupiter, createMars, createPlanetCenter, createLightDirectional, shadowProperties};
+export {clickBox, cControl, absoluteCoordinates, createCamera, createPointLight, createVenus, createBackground, createUranus, createSaturn, createSun, createNeptune, createMercury, createEarth, createMoon, createJupiter, createMars, createPlanetCenter, createLightDirectional, shadowProperties};
