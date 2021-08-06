@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>EARTH</title>
+		<style>
+			body { margin: 0; }
+			#menu{position: absolute;}
+			#instBox{
+				position: absolute;
+				bottom: 50%;
+				left: 35%;
+				background-color:rgba(24, 207, 116, 0.35);
+				/* box-shadow: -10px 10px 80px 10px rgba(24, 207, 116, 1); */
+				border-radius: 15px;
+				width: 400px;
+			}
+			#instBorder{
+				border: 3px solid rgb(4, 131, 68);
+				border-radius: 15px;
+				padding: 10px 30px 10px 30px;
+				text-align: center;
+				color: white;
+				font-family: sans-serif;
+			}
+			.exit{
+				position: absolute;
+				top: 0;
+				right: 0;
+				border-radius: 100%;
+				background-color:rgba(24, 207, 116, 0);
+				border: 3px solid rgb(4, 131, 68, 0);
+				color: white;
+				font-family: sans-serif;
+			}
+			.btnP{
+				background-color:rgba(24, 207, 116, 0.4);
+				border: 3px solid rgb(4, 131, 68);
+				/* box-shadow: 0px 0px 80px 10px rgba(24, 207, 116, 1); */
+				color:white;
+			}
+			.btnP:hover {
+				background-color:rgba(24, 207, 116, 1);
+			}
+			#infoBox{
+				position: absolute;
+				top: 0;
+				right: 0;
+				background-color:rgba(24, 207, 116, 0.35);
+				/* box-shadow: -10px 10px 80px 10px rgba(24, 207, 116, 1); */
+				border-radius: 15px;
+				width: 400px;
+				border: 3px solid rgb(4, 131, 68);
+				color: white;
+				font-family: sans-serif;
+				text-align: center;
+				width: 400px;
+				visibility:hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="menu">
+			<table>
+				<tr>
+					<th><button class="btnP" id="sunB">SUN</button></th>
+					<th><button class="btnP" id="mercuryB">MERCURY</button></th>
+					<th><button class="btnP" id="venusB">VENUS</button></th>
+					<th><button class="btnP" id="earthB">EARTH</button></th>
+					<th><button class="btnP" id="marsB">MARS</button></th>
+					<th><button class="btnP" id="jupiterB">JUPITER</button></th>
+					<th><button class="btnP" id="saturnB">SATURN</button></th>
+					<th><button class="btnP" id="uranusB">URANUS</button></th>
+					<th><button class="btnP" id="neptuneB">NEPTUNE</button></th>
+				</tr>
+			</table>
+		</div>
+		<div id="instBox">
+			<div id="instBorder">
+				<h2>WELCOME TO THE SOLAR SYSTEM SIMULATOR 3000</h2>
+				<p>Orbit around a planet by clicking outside of it and dragging in the desired direction.</p>
+				<p>Zoom in/out by scolling up/down.</p>
+				<p>Click on a planet to put it into focus and get infromation about it.</p>
+			</div>
+			<button class="exit" id="exit1">X</button>
+		</div>
+		<div id="infoBox">
+			<h2 id="infoTitle">SUN INFO</h2>
+			<p id="info"> <b>Name:</b> Sun <br><br> <b>Radius:</b> 696,340 km<br><br><b>Mass:</b>  1.989 × 10^30 kg<br><br> <b>Age:</b> 4.603 billion years <br><br><b>Temperature:</b>  5,500 degrees C<br><br>
+				<b>Description:</b> The Sun is the star at the center of the Solar System. It is made out of hot plasma heated by the nuclear fusion reaction in its core, radiating visible, ultraviolet and infrared light.
+			</p>
+			<button class="exit" id="exit2">X</button>
+		</div>
+		
+		<script src="./src/create.js" type="module"></script>
+        <script src="./src/solarSystem.js" type="module"></script>
+		<script src="./src/menu.js" type="module"></script>
+	</body>
+</html>

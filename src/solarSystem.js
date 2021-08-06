@@ -3,7 +3,7 @@ import * as ORBIT from "../node_modules/three/examples/jsm/controls/OrbitControl
 import DomeventMouse from "../node_modules/Three-DOMEvents/dist/DomeventMouse.es.js";
 import DomEvents from "../node_modules/Three-DOMEvents/dist/domevents.es.js";
 import {clickBox, cControl, absoluteCoordinates, createCamera, createPointLight, createVenus, createBackground, createUranus, createSaturn, createSun, createNeptune, createMercury, createEarth, createMoon, createJupiter, createMars, createPlanetCenter, createLightDirectional, shadowProperties} from "./create.js";
-
+import {planetIndex} from "./menu.js";
 DomEvents.extend(DomeventMouse);
 
 
@@ -39,8 +39,13 @@ renderer.shadowMap.enabled = true; //active the shadow map
 renderer.shadowMap.type = THREE.PCFSoftShadowMap; // choose the type of algorithm that calculates the shadows
 document.body.appendChild( renderer.domElement ); //add everything to html doc for display
 
-
 var PlanetViewIndex = 0;
+
+function changeIndex(pIndex){
+    PlanetViewIndex = pIndex;
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////
 //////CREATE PLANETS
 ///////////////////////////////////////////////////////////////////////////////////////	
@@ -48,24 +53,24 @@ var PlanetViewIndex = 0;
 var sun = createSun(0, planetProp.sun.radius);
 sun.addEventListener("click", function(event){
     PlanetViewIndex = 0;
-
-    var text = document.createElement("p");
-    text.setAttribute("id", "sunText")
-    document.createTextNode("SUN");
-    document.body.appendChild(text);
-    console.log(document.getElementsByTagName("p"));
-    document.getElementsByTagName("p").style.color = "red";
 });
 scene.add(sun);
 
 //CREATE EARTH
 var earth = createEarth(planetProp.earth.sunDist, planetProp.earth.radius);
+earth.name ="earth";
 var earthContainer = new THREE.Object3D();
 //create bigger contrainer so its easy to click planets
 var clickBoxE = clickBox(planetProp.earth.radius * 5);
+clickBoxE.name = "earth3";
 earth.add(clickBoxE);
 clickBoxE.addEventListener("click", function(event){
+    changeIndex(3);
+    console.log(event);
+});
+clickBoxE.addEventListener("ich", function(obj){
     PlanetViewIndex = 3;
+    console.log(obj);
 });
 //add
 earthContainer.add(earth);
@@ -201,6 +206,8 @@ DEH.activate(scene);//specify where the dom event handler should listen
 ///////////////////////////////////////////////////////////////////////////////////////		
 //ADD SUN POINT LIGHT
 var sunLight = createPointLight();
+sunLight.shadow.mapSize.width = 2048;
+sunLight.shadow.mapSize.height = 2048;
 scene.add(sunLight);
 
 //LIGHT AMBIENT
@@ -209,7 +216,7 @@ scene.add(lightA);
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //////CREATE EVENTS
-///////////////////////////////////////////////////////////////////////////////////////		
+///////////////////////////////////////////////////////////////////////////////////////
 
 
 var clock = new THREE.Clock();
@@ -253,3 +260,5 @@ const animate = function () {
 };
 
 animate();
+
+export {changeIndex};
