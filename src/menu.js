@@ -62,8 +62,8 @@ clickButton("SUN", planetButtons.sun.button, planetButtons.sun.text, 0);
 clickButton("VENUS", planetButtons.venus.button, planetButtons.venus.text, 2);
 clickButton("EARTH", planetButtons.earth.button, planetButtons.earth.text, 3);
 clickButton("MARS", planetButtons.mars.button, planetButtons.mars.text, 5);
-clickButton("SATURN", planetButtons.saturn.button, planetButtons.saturn.text, 6);
-clickButton("JUPITER", planetButtons.jupiter.button, planetButtons.jupiter.text, 7);
+clickButton("SATURN", planetButtons.saturn.button, planetButtons.saturn.text, 7);
+clickButton("JUPITER", planetButtons.jupiter.button, planetButtons.jupiter.text, 6);
 clickButton("URANUS", planetButtons.uranus.button, planetButtons.uranus.text, 8);
 clickButton("NEPTUNE", planetButtons.neptune.button, planetButtons.neptune.text, 9);
 
